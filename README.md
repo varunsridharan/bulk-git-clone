@@ -4,7 +4,9 @@ This is a simple **PHP** Script which can clone all your github repo into local.
 ## Why ?
 Well i have around 150+ repositories in personal account and 200+ in organization accounts
 
-and i found it hard & ⌛ consuming to clone each of them manually. so i created a **PHP** script which can do it for me with the help of **Github API** 
+and i found it ⌛ consuming to clone each of them manually. 
+
+so i created a **PHP** script which can do it for me with the help of **Github API** 
 
 ## Usage
 
@@ -21,7 +23,7 @@ Run **PHP** script using the 👇 CMD
 php cloneall.php {your-personal-github-token}
 ```
 
-**With Custom Location To Save Your Repositories***
+**With Custom Location To Save Your Repositories**
 ```text
 php cloneall.php {your-personal-github-token} /home/your-location/path/
 ```
