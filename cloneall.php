@@ -6,13 +6,19 @@ use Milo\Github\Paginator;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$token  = '{your-token-here}';
+$token       = ( isset( $argv[1] ) ) ? trim( $argv[1], '/' ) : false;
+$storage_dir = ( isset( $argv[2] ) ) ? trim( $argv[2], '/' ) : __DIR__;
+
+if ( empty( $token ) ) {
+	echo PHP_EOL . '⛔  Github Token Not Provided' . PHP_EOL;
+	exit;
+}
+
 $gh_api = new Api();
 $gh_api->setToken( new \Milo\Github\OAuth\Token( $token ) );
-$storage_dir = ( isset( $argv[1] ) ) ? trim( $argv[1], '/' ) : __DIR__;
 
 if ( file_exists( __DIR__ . '/repos.json' ) ) {
-	echo 'Repo Local Cache Found' . PHP_EOL;
+	echo '✔️ Repo Local Cache Found' . PHP_EOL;
 	$data = json_decode( file_get_contents( __DIR__ . '/repos.json' ) );
 }
 
@@ -21,7 +27,7 @@ if ( empty( $data ) ) {
 	$request    = $gh_api->createRequest( 'GET', '/user/repos/' );
 	$final_data = array();
 	$paginator  = new Paginator( $gh_api, $request );
-	echo 'Fetching From Github.com' . PHP_EOL;
+	echo '🔽 Fetching From Github.com' . PHP_EOL;
 	foreach ( $paginator->limit( 100 ) as $page => $response ) {
 		$final_data = array_merge( $final_data, $gh_api->decode( $response ) );
 	}
@@ -30,7 +36,7 @@ if ( empty( $data ) ) {
 }
 
 
-echo PHP_EOL . 'Total Repo Found : ' . count( $data ) . PHP_EOL . PHP_EOL;
+echo PHP_EOL . '✔️ Total Repo Found : ' . count( $data ) . PHP_EOL . PHP_EOL;
 
 array_map( function ( $repo ) {
 	global $storage_dir;
